@@ -1,4 +1,4 @@
-
+clear;clc;close all;
 %====================================================%
 %       Simply run this code, it's interactive!      %
 %                                                    %
@@ -7,7 +7,8 @@
 %
 %P.S. You may modify the file 'InitialValues.m'.
 
-clear;clc;close all;
+%Set to true, to display information in the command window.
+verbose = false;
 
 if ~exist("./Functions/",'dir'), error("Not in main directory!"), end;
 addpath("./Functions/","./Simulink_Models/","./SaveData/");
