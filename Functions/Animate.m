@@ -1,3 +1,5 @@
+clear M;
+
 R = 1;
 L = 10;
 
@@ -21,7 +23,7 @@ d_p_L_sin_a = d+L.*sin(a);
 L_cos_a = L.*cos(a);
 pretxt = "/"+ alen +" frames @ "+s+"fps";
 
-%figure;
+h = figure;
 ax = gca;
 ax.XLim = lims(1,:);
 ax.YLim = lims(2,:);
@@ -33,18 +35,29 @@ rope = line(ax, [d(i) d_p_L_sin_a(i)],[0 -L_cos_a(i)]);
 ball = drawcircle(ax, d_p_L_sin_a(i), -L_cos_a(i), R);
 hold off;
 
-for i = 1:s:alen
-    clc;
-    if(verbose), i + pretxt, end
-    
-    wagon.XData = [pre_d_n(i) pre_d(i)];
-    
-    rope.XData =  [d(i) d_p_L_sin_a(i)];
-    rope.YData = [0 -L_cos_a(i)];
-    
-    b = drawcircle(ax, d_p_L_sin_a(i), -L_cos_a(i), R, true);
-    ball.XData = b(1,:);
-    ball.YData = b(2,:);
-    
-    drawnow;
+c=0;
+try
+    for i = 1:s:alen
+        clc;
+        if(verbose), i + pretxt, end
+
+        wagon.XData = [pre_d_n(i) pre_d(i)];
+
+        rope.XData =  [d(i) d_p_L_sin_a(i)];
+        rope.YData = [0 -L_cos_a(i)];
+
+        b = drawcircle(ax, d_p_L_sin_a(i), -L_cos_a(i), R, true);
+        ball.XData = b(1,:);
+        ball.YData = b(2,:);
+
+        drawnow;
+        c = c+1;
+        if saveGIF, M(c) = getframe; end
+    end
+catch ME
+    close(gcf);
+    run("CleanWS");
+    error("Animation Cancelled!");
 end
+close(h);
+if saveGIF, run("SaveGIF"); end

@@ -37,14 +37,28 @@ if indx==2
     toLoadSave = inputdlg(prompt,'Load Saved Linearisation?',[1 50],"LinSys");
     
     %Runs the Linearisation of the Pendulum System.
+    f = waitbar(.25,"Linearising System...");
     run("Linearise");
+    waitbar(.75,f);
     sim("StateSpace_Sim");
+    close(f);
 elseif indx==1
+    f = waitbar(.25,"Running Simulation...");
     sim("PID_Sim");
+    close(f);
 end
+
+%Should save GIF?
+saveGIF = false;
+answer = questdlg("Save GIF Animation?","SimPendel","Yes","No","No");
+if answer == "Yes", saveGIF = true; end
 
 %Animate the results!
 run("Animate");
 
+f = waitbar(.25,"Cleaning Workspace...");
 %Cleans up the workspace from all the loaded variables.
 run("CleanWS");
+close(f);clear f;
+
+msgbox(sprintf("Completed!\n\nhttps://github.com/naresh97/SimPendel/"));
