@@ -16,6 +16,20 @@ addpath("./Functions/","./Simulink_Models/","./SaveData/");
 %Import the necessary initial values into the workspace
 run("InitialValues");
 
+prompt = {'Initial Angle:','Initial Angular Velocity:','Target Angle:','Initial Wagon Velocity', 'Initial Wagon Acceleration'};
+dlgtitle = 'Initial Values';
+dims = [1 50];
+definput = {num2str(x_initial(1)),num2str(x_initial(2)),num2str(x_soll),num2str(d_initial(1)),num2str(d_initial(2))};
+answer = inputdlg(prompt,dlgtitle,dims,definput);
+if ~isempty(answer)
+    x_initial(1) = eval(answer{1});
+    x_initial(2) = eval(answer{2});
+    x_soll = eval(answer{3});
+    d_initial(1) = eval(answer{4});
+    d_initial(2) = eval(answer{5});
+end
+
+
 %Makes sure that Simulink puts all its temporary/cache files into a
 %separate folder to not pollute the working folder.
 Simulink.fileGenControl('set', ...
