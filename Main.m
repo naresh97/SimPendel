@@ -15,6 +15,7 @@ addpath("./Functions/","./Simulink_Models/","./SaveData/");
 
 %Import the necessary initial values into the workspace
 run("InitialValues");
+run("CheckVersion");
 
 prompt = {'Initial Angle:','Initial Angular Velocity:','Target Angle:','Initial Wagon Velocity', 'Initial Wagon Acceleration'};
 dlgtitle = 'Initial Values';
@@ -54,11 +55,11 @@ if indx==2
     f = waitbar(.25,"Linearising System...");
     run("Linearise");
     waitbar(.75,f);
-    sim("StateSpace_Sim");
+    sim(StateSpaceSim);
     close(f);
 elseif indx==1
     f = waitbar(.25,"Running Simulation...");
-    sim("PID_Sim");
+    sim(PIDSim);
     close(f);
 end
 

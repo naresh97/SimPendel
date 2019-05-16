@@ -6,7 +6,7 @@ if ~isempty(toLoadSave)
     end
 else
     %Else, linearise the system from the Simulink Model again.
-    mdl = "Linearisation_Sim";
+    mdl = LinSim;
     load_system(mdl);
     io = getlinio(mdl);
     linsys = linearize(mdl,io);
